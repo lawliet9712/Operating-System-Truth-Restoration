@@ -31,7 +31,7 @@
 00000000000i[      ]   Sound support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x7f5f4335e010. after alignment, vector=0x7f5f4335f000
+00000000000i[MEM0  ] allocated memory at 0x7fd8ae3c6010. after alignment, vector=0x7fd8ae3c7000
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/home/lawliet/bochs/share/bochs/BIOS-bochs-latest')
@@ -41,7 +41,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Sun Mar 21 11:42:41 2021 (time0=1616298161)
+00000000000i[CMOS  ] Setting initial clock to: Wed Apr  7 23:01:28 2021 (time0=1617807688)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -71,7 +71,7 @@
 00000000000i[PLUGIN] init_dev of 'keyboard' plugin device by virtual method
 00000000000i[KBD   ] will paste characters every 400 keyboard ticks
 00000000000i[PLUGIN] init_dev of 'harddrv' plugin device by virtual method
-00000000000i[HD    ] HD on ata0-0: '/home/lawliet/study/L-OS/hd60M.img', 'flat' mode
+00000000000i[HD    ] HD on ata0-0: '/home/lawliet/study/Operating-System-Truth-Restoration/L-OS/hd60M.img', 'flat' mode
 00000000000i[IMG   ] hd_size: 62447616
 00000000000i[HD    ] ata0-0: autodetect geometry: CHS=121/16/63 (sector size=512)
 00000000000i[HD    ] translation on ata0-0 set to 'none'
@@ -183,7 +183,7 @@
 00000376507d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
 00000376547d[PCI   ] read  PCI register 0x59 value 0x00 (len=1)
 00000376556d[PCI   ] write PCI register 0x59 value 0x00 (len=1)
-00000606304i[XGUI  ] charmap update. Font is 9 x 16
+00000606208i[XGUI  ] charmap update. Font is 9 x 16
 00000704251d[PCI   ] write PCI register 0x59 value 0x30 (len=1)
 00000704251i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
 00001032181i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
@@ -247,27 +247,27 @@
 00001883387i[BIOS  ] ata0-0: PCHS=121/16/63 translation=none LCHS=121/16/63
 00005330451i[BIOS  ] IDE time out
 00005377879i[BIOS  ] Booting from 0000:7c00
-00005818608i[XGUI  ] charmap update. Font is 9 x 16
-00307284000i[      ] Ctrl-C detected in signal handler.
-00307284000i[      ] dbg: Quit
-00307284000i[CPU0  ] CPU is in real mode (active)
-00307284000i[CPU0  ] CS.mode = 16 bit
-00307284000i[CPU0  ] SS.mode = 16 bit
-00307284000i[CPU0  ] EFER   = 0x00000000
-00307284000i[CPU0  ] | EAX=00000600  EBX=00000700  ECX=00090000  EDX=0000184f
-00307284000i[CPU0  ] | ESP=00007c00  EBP=00000000  ESI=000e0000  EDI=0000fdbc
-00307284000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf SF zf af pf cf
-00307284000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-00307284000i[CPU0  ] |  CS:0000( 0004| 0|  0) 00000000 0000ffff 0 0
-00307284000i[CPU0  ] |  DS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00307284000i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00307284000i[CPU0  ] |  ES:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00307284000i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00307284000i[CPU0  ] |  GS:b800( 0005| 0|  0) 000b8000 0000ffff 0 0
-00307284000i[CPU0  ] | EIP=00007c5c (00007c5c)
-00307284000i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
-00307284000i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
-00307284000d[PCI   ] Exit
-00307284000i[CMOS  ] Last time is 1616298237 (Sun Mar 21 11:43:57 2021)
-00307284000i[XGUI  ] Exit
-00307284000i[SIM   ] quit_sim called with exit code 0
+00005822892i[XGUI  ] charmap update. Font is 9 x 16
+03539160000i[      ] Ctrl-C detected in signal handler.
+03539160000i[      ] dbg: Quit
+03539160000i[CPU0  ] CPU is in real mode (active)
+03539160000i[CPU0  ] CS.mode = 16 bit
+03539160000i[CPU0  ] SS.mode = 16 bit
+03539160000i[CPU0  ] EFER   = 0x00000000
+03539160000i[CPU0  ] | EAX=00000000  EBX=00000b00  ECX=00090000  EDX=000001f0
+03539160000i[CPU0  ] | ESP=00007c00  EBP=00000000  ESI=00000002  EDI=00000001
+03539160000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf AF PF cf
+03539160000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+03539160000i[CPU0  ] |  CS:0000( 0004| 0|  0) 00000000 0000ffff 0 0
+03539160000i[CPU0  ] |  DS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+03539160000i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+03539160000i[CPU0  ] |  ES:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+03539160000i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+03539160000i[CPU0  ] |  GS:b800( 0005| 0|  0) 000b8000 0000ffff 0 0
+03539160000i[CPU0  ] | EIP=00000960 (00000960)
+03539160000i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
+03539160000i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
+03539160000d[PCI   ] Exit
+03539160000i[CMOS  ] Last time is 1617808572 (Wed Apr  7 23:16:12 2021)
+03539160000i[XGUI  ] Exit
+03539160000i[SIM   ] quit_sim called with exit code 0
