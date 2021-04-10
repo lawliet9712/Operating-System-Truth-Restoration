@@ -370,7 +370,8 @@ memory: guest=512, host=256
 # The Bochs BIOS currently supports only the option "fastboot" to skip the
 # boot menu delay.
 #=======================================================================
-romimage: file=$HOME/bochs/share/bochs/BIOS-bochs-latest, options=fastboot
+#default-my-ubuntu#romimage: file=$HOME/bochs/share/bochs/BIOS-bochs-latest, options=fastboot
+romimage: file=/usr/local/share/bochs/BIOS-bochs-latest, options=fastboot
 #romimage: file=$BXSHARE/bios.bin-1.13.0 # http://www.seabios.org/SeaBIOS
 #romimage: file=mybios.bin, address=0xfff80000 # 512k at memory top
 
@@ -379,7 +380,8 @@ romimage: file=$HOME/bochs/share/bochs/BIOS-bochs-latest, options=fastboot
 # You now need to load a VGA ROM BIOS into C0000.
 #=======================================================================
 #vgaromimage: file=$HOME/local/share/vgabios/vgabios.bin
-vgaromimage: file=$HOME/bochs/share/bochs/VGABIOS-lgpl-latest-cirrus
+#default-my-ubuntu#vgaromimage: file=$HOME/bochs/share/bochs/VGABIOS-lgpl-latest-cirrus
+vgaromimage: file=/usr/local/share/bochs/VGABIOS-lgpl-latest-cirrus
 #vgaromimage: file=$BXSHARE/vgabios-cirrus.bin-1.13.0 # http://www.seabios.org/SeaVGABIOS
 #vgaromimage: file=$HOME/bochs/share/bochs/vgabios-cirrus.bin-1.13.0 # http://www.seabios.org/SeaVGABIOS
 #vgaromimage: file=bios/VGABIOS-elpin-2.40
@@ -728,7 +730,7 @@ ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
 #   ata3-master: type=disk, mode=flat, path=483M.sample, cylinders=1024, heads=15, spt=63
 #   ata3-slave:  type=cdrom, path=iso.sample, status=inserted
 #=======================================================================
-ata0-master: type=disk, path="$HOME/study/Operating-System-Truth-Restoration/L-OS/hd60M.img", mode=flat
+ata0-master: type=disk, path="$HOME/github/Operating-System-Truth-Restoration/L-OS/hd60M.img", mode=flat
 #ata0-master: type=disk, mode=flat, path="30M.sample", cylinders=615, heads=6, spt=17
 #ata0-master: type=disk, mode=flat, path="c.img", cylinders=0 # autodetect
 #ata0-slave: type=disk, mode=vvfat, path=/bochs/images/vvfat, journal=vvfat.redolog
@@ -773,7 +775,7 @@ floppy_bootsig_check: disabled=0
 #   log: /dev/tty
 #=======================================================================
 #log: /dev/null
-log: bochsout.txt
+log: ./log/bochsout.log
 
 #=======================================================================
 # LOGPREFIX:
