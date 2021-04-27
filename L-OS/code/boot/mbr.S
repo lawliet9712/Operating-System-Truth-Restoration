@@ -32,7 +32,7 @@ SECTION MBR vstart=0x7c00
 
    mov eax, LOADER_START_SECTOR ; 扇区 lba 地址
    mov bx, LOADER_BASE_ADDR ; 写入的地址
-   mov cx, 1                ; 读的扇区数量
+   mov cx, 4                ; 读的扇区数量
    call rd_disk_m_16
 
    jmp LOADER_BASE_ADDR
