@@ -9,7 +9,7 @@
 #define PIC_S_CTRL 0xa0	       // 从片的控制端口是0xa0
 #define PIC_S_DATA 0xa1	       // 从片的数据端口是0xa1
 
-#define IDT_DESC_CNT 0x21	 // 目前总共支持的中断数
+#define IDT_DESC_CNT 0x21      // 目前总共支持的中断数
 
 #define EFLAGS_IF   0x00000200       // eflags寄存器中的if位为1
 #define GET_EFLAGS(EFLAG_VAR) asm volatile("pushfl; popl %0" : "=g" (EFLAG_VAR))
@@ -41,10 +41,10 @@ static void pic_init(void) {
    outb (PIC_M_DATA, 0x01);   // ICW4: 8086模式, 正常EOI
 
    /* 初始化从片 */
-   outb (PIC_S_CTRL, 0x11);	// ICW1: 边沿触发,级联8259, 需要ICW4.
-   outb (PIC_S_DATA, 0x28);	// ICW2: 起始中断向量号为0x28,也就是IR[8-15] 为 0x28 ~ 0x2F.
-   outb (PIC_S_DATA, 0x02);	// ICW3: 设置从片连接到主片的IR2引脚
-   outb (PIC_S_DATA, 0x01);	// ICW4: 8086模式, 正常EOI
+   outb (PIC_S_CTRL, 0x11);    // ICW1: 边沿触发,级联8259, 需要ICW4.
+   outb (PIC_S_DATA, 0x28);    // ICW2: 起始中断向量号为0x28,也就是IR[8-15] 为 0x28 ~ 0x2F.
+   outb (PIC_S_DATA, 0x02);    // ICW3: 设置从片连接到主片的IR2引脚
+   outb (PIC_S_DATA, 0x01);    // ICW4: 8086模式, 正常EOI
 
    /* 打开主片上IR0,也就是目前只接受时钟产生的中断 */
    outb (PIC_M_DATA, 0xfe);
@@ -62,7 +62,6 @@ static void make_idt_desc(struct gate_desc* p_gdesc, uint8_t attr, intr_handler 
    p_gdesc->func_offset_high_word = ((uint32_t)function & 0xFFFF0000) >> 16;
 }
 
-
 /*初始化中断描述符表*/
 static void idt_desc_init(void) {
    int i;
@@ -77,11 +76,28 @@ static void general_intr_handler(uint8_t vec_nr) {
    if (vec_nr == 0x27 || vec_nr == 0x2f) {	// 0x2f是从片8259A上的最后一个irq引脚，保留
       return;		//IRQ7和IRQ15会产生伪中断(spurious interrupt),无须处理。
    }
-   put_str("int vector: 0x");
-   put_int(vec_nr);
-   put_char('\n');
-}
+  /* 将光标置为0,从屏幕左上角清出一片打印异常信息的区域,方便阅读 */
+   set_cursor(0);
+   int cursor_pos = 0;
+   while(cursor_pos < 320) {
+      put_char(' ');
+      cursor_pos++;
+   }
 
+   set_cursor(0);	 // 重置光标为屏幕左上角
+   put_str("!!!!!!!      excetion message begin  !!!!!!!!\n");
+   set_cursor(88);	// 从第2行第8个字符开始打印
+   put_str(intr_name[vec_nr]);
+   if (vec_nr == 14) {	  // 若为Pagefault,将缺失的地址打印出来并悬停
+      int page_fault_vaddr = 0; 
+      asm ("movl %%cr2, %0" : "=r" (page_fault_vaddr));	  // cr2是存放造成page_fault的地址
+      put_str("\npage fault addr is ");put_int(page_fault_vaddr); 
+   }
+   put_str("\n!!!!!!!      excetion message end    !!!!!!!!\n");
+  // 能进入中断处理程序就表示已经处在关中断情况下,
+  // 不会出现调度进程的情况。故下面的死循环不会再被中断。
+   while(1);
+}
 
 /* 完成一般中断处理函数注册及异常名称注册 */
 static void exception_init(void) {			    // 完成一般中断处理函数注册及异常名称注册
@@ -155,12 +171,18 @@ enum intr_status intr_get_status() {
    return (EFLAGS_IF & eflags) ? INTR_ON : INTR_OFF;
 }
 
+/* 在中断处理程序数组第vector_no个元素中注册安装中断处理程序function */
+void register_handler(uint8_t vector_no, intr_handler function) {
+/* idt_table数组中的函数是在进入中断后根据中断向量号调用的,
+ * 见kernel/kernel.S的call [idt_table + %1*4] */
+   idt_table[vector_no] = function; 
+}
 
 /*完成有关中断的所有初始化工作*/
 void idt_init() {
    put_str("idt_init start\n");
    idt_desc_init();	   // 初始化中断描述符表
-   exception_init();
+   exception_init();	   // 异常名初始化并注册通常的中断处理函数
    pic_init();		   // 初始化8259A
 
    /* 加载idt */
@@ -168,4 +190,3 @@ void idt_init() {
    asm volatile("lidt %0" : : "m" (idt_operand));
    put_str("idt_init done\n");
 }
-
