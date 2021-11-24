@@ -34,6 +34,9 @@ static void frequency_set(uint8_t counter_port, \
 static void intr_timer_handler(void) {
    struct task_struct* cur_thread = running_thread();
 
+   //put_str(" stack magic :0x");
+   //put_int(cur_thread->stack_magic);
+   //put_str(" \n");
    ASSERT(cur_thread->stack_magic == 0x19870916);         // 检查栈是否溢出
 
    cur_thread->elapsed_ticks++;	  // 记录此线程占用的cpu时间嘀

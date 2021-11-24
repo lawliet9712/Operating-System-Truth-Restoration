@@ -18,8 +18,10 @@ enum pool_flags {
 
 /* 用于虚拟地址管理 */
 struct virtual_addr {
-   struct bitmap vaddr_bitmap; // 虚拟地址用到的位图结构 
-   uint32_t vaddr_start;       // 虚拟地址起始地址
+/* 虚拟地址用到的位图结构，用于记录哪些虚拟地址被占用了。以页为单位。*/
+   struct bitmap vaddr_bitmap;
+/* 管理的虚拟地址 */
+   uint32_t vaddr_start;
 };
 
 extern struct pool kernel_pool, user_pool;
@@ -29,5 +31,7 @@ void* malloc_page(enum pool_flags pf, uint32_t pg_cnt);
 void malloc_init(void);
 uint32_t* pte_ptr(uint32_t vaddr);
 uint32_t* pde_ptr(uint32_t vaddr);
-
+uint32_t addr_v2p(uint32_t vaddr);
+void* get_a_page(enum pool_flags pf, uint32_t vaddr);
+void* get_user_pages(uint32_t pg_cnt);
 #endif
