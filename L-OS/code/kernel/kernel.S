@@ -94,3 +94,42 @@ VECTOR 0x2c,ZERO	;ps/2鼠标
 VECTOR 0x2d,ZERO	;fpu浮点单元异常
 VECTOR 0x2e,ZERO	;硬盘
 VECTOR 0x2f,ZERO	;保留
+
+;;;;;;;;;;;;;;;;   0x80号中断   ;;;;;;;;;;;;;;;;
+[bits 32]
+extern syscall_table
+section .text
+global syscall_handler
+syscall_handler:
+
+; 系统调用传入的参数在用户栈中,此时是内核栈
+;1 保存上下文环境
+   push 0			    ; 压入0, 使栈中格式统一
+
+   push ds
+   push es
+   push fs
+   push gs
+   pushad			    ; PUSHAD指令压入32位寄存器，其入栈顺序是:
+				    ; EAX,ECX,EDX,EBX,ESP,EBP,ESI,EDI 
+				 
+   push 0x80			    ; 此位置压入0x80也是为了保持统一的栈格式
+
+;2 从内核栈中获取cpu自动压入的用户栈指针esp的值
+   mov ebx, [esp + 4 + 48 + 4 + 12]
+
+;3 再把参数重新压在内核栈中, 此时ebx是用户栈指针
+;  由于此处只压入了三个参数, 所以目前系统调用最多支持3个参数
+   push dword [ebx + 12]	    ; 系统调用的第3个参数
+   push dword [ebx + 8]		    ; 系统调用的第2个参数
+   push dword [ebx + 4]		    ; 系统调用的第1个参数
+   mov edx, [ebx]		    ; 系统调用的子功能号
+
+   ; 编译器会在栈中根据C函数声明匹配正确数量的参数
+   call [syscall_table + edx*4]
+   add esp, 12			    ; 跨过上面的三个参数
+
+;4 将call调用后的返回值存入待当前内核栈中eax的位置
+   mov [esp + 8*4], eax	
+   jmp intr_exit		    ; intr_exit返回,恢复上下文
+
