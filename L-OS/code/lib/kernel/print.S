@@ -108,7 +108,7 @@ put_char:
    sub bx, dx				  ; 光标值减去除80的余数便是取整
 					  ; 以上4行处理\r的代码
 
- .is_carriage_return_end:		  ; 回车符CR处理结束
+ .is_carriage_return_end:                 ; 回车符CR处理结束
    add bx, 80
    cmp bx, 2000
  .is_line_feed_end:			  ; 若是LF(\n),将光标移+80便可。  
@@ -118,13 +118,13 @@ put_char:
  .roll_screen:				  ; 若超出屏幕大小，开始滚屏
    cld  
    mov ecx, 960				  ; 一共有2000-80=1920个字符要搬运,共1920*2=3840字节.一次搬4字节,共3840/4=960次 
-   mov esi, 0xb80a0			  ; 第1行行首
-   mov edi, 0xb8000			  ; 第0行行首
+   mov esi, 0xc00b80a0			  ; 第1行行首
+   mov edi, 0xc00b8000			  ; 第0行行首
    rep movsd				  
 
 ;;;;;;;将最后一行填充为空白
    mov ebx, 3840			  ; 最后一行首字符的第一个字节偏移= 1920 * 2
-   mov ecx, 80				  ;一行是80字符(160字节),每次清空1字符(2字节),一行需要移动80次
+   mov ecx, 80				  ;一行是80字符(160字节),每次清理1字符(2字节),一行需要移动80次
  .cls:
    mov word [gs:ebx], 0x0720		  ;0x0720是黑底白字的空格键
    add ebx, 2
@@ -215,7 +215,6 @@ put_int:
    jl .put_each_num
    popad
    ret
-
 
 global set_cursor
 set_cursor:
